@@ -76,4 +76,5 @@ dependencies {
     implementation ("androidx.wear.compose:compose-material:1.0.0")
     implementation ("androidx.wear.compose:compose-navigation:1.0.0")
     implementation ("androidx.compose.foundation:foundation:1.3.0")
+    implementation ("androidx.wear.compose:compose-navigation:1.3.1")
 }

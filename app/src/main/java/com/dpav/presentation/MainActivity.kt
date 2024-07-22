@@ -30,7 +30,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.navigation.SwipeDismissableNavHost
+import androidx.wear.compose.navigation.composable
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.dpav.R
+import com.dpav.presentation.screens.LoginFirstScreen
+import com.dpav.presentation.screens.LoginSecondScreen
 import com.dpav.presentation.theme.DPAVTheme
 
 class MainActivity : ComponentActivity() {
@@ -40,7 +45,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MyBackground()
+            val navController = rememberSwipeDismissableNavController()
+            SwipeDismissableNavHost(
+                navController = navController,
+                startDestination = "FirstLoginScreen"
+            ){
+                composable("FirstLoginScreen") {
+                    LoginFirstScreen(navController)
+                }
+                composable("SecondLoginScreen") {
+                    LoginSecondScreen()
+                }
+            }
         }
     }
 }
@@ -89,5 +105,5 @@ fun MyImg(imgId: Int, desc: String, modifier: Modifier){
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    MyBackground()
+    LoginSecondScreen()
 }
