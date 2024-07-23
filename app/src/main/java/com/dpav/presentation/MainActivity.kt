@@ -105,5 +105,16 @@ fun MyImg(imgId: Int, desc: String, modifier: Modifier){
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    LoginSecondScreen()
+    val navController = rememberSwipeDismissableNavController()
+    SwipeDismissableNavHost(
+        navController = navController,
+        startDestination = "FirstLoginScreen"
+    ){
+        composable("FirstLoginScreen") {
+            LoginFirstScreen(navController)
+        }
+        composable("SecondLoginScreen") {
+            LoginSecondScreen()
+        }
+    }
 }
