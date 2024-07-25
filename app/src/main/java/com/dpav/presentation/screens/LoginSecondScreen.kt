@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,8 @@ import androidx.navigation.NavController
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.dpav.R
+import com.dpav.presentation.models.Login
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginSecondScreen(/*navController: NavController*/){
@@ -35,6 +38,7 @@ fun LoginSecondScreen(/*navController: NavController*/){
 @Composable
 fun LoginSecondScreenBody(){
     var textState by remember { mutableStateOf(TextFieldValue("")) }
+    val coroutineScope = rememberCoroutineScope()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +49,20 @@ fun LoginSecondScreenBody(){
         ){
             MyImg(R.drawable.dpav, "dpav", Modifier.size(100.dp, 50.dp))
             MyTextField("Ingrese codigo para iniciar sesion")
-            TextField(value = textState, onValueChange = { textState = it }, modifier = Modifier.padding(16.dp).size(width = 150.dp, height = 20.dp))
+            TextField(value = textState, onValueChange = { newText ->
+                textState = newText
+                if (newText.text.length == 4) { // Asumiendo que el PIN es de 4 dígitos
+                    coroutineScope.launch {
+                        try {
+                            val dataToSend = Login(codigo = newText.text)
+                            val response = postApiData("https://api.example.com/data", dataToSend)
+                            println("Response: ${response.readText()}")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            }, modifier = Modifier.padding(16.dp).size(width = 150.dp, height = 20.dp))
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.TopEnd
