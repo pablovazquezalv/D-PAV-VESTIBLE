@@ -68,6 +68,7 @@ fun NavButton(text: String, navController: NavController){
     Button(
         onClick = {
             navController.navigate(route = "SecondLoginScreen")
+            println("Response: Hola mUndo")
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = ButtonBlue),
         shape = RoundedCornerShape(20.dp),

@@ -8,6 +8,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.utils.EmptyContent.contentType
 import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
@@ -28,8 +29,9 @@ object KtorClient {
     }
 }
 
-suspend fun getLogin(url: String, requestBody: Any): HttpResponse {
-    return KtorClient.client.post("http://134.209.35.1/api/loginVerificarCodigoSmartWatch") {
+suspend fun getLogin(requestBody: Any): HttpResponse {
+    return KtorClient.client.request("http://134.209.35.1/api/loginVerificarCodigoSmartWatch") {
+        method = HttpMethod.Post
         contentType(ContentType.Application.Json)
         setBody(requestBody)
     }

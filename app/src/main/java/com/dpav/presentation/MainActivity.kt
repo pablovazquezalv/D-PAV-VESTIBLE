@@ -108,7 +108,7 @@ fun DefaultPreview() {
     val navController = rememberSwipeDismissableNavController()
     SwipeDismissableNavHost(
         navController = navController,
-        startDestination = "FirstLoginScreen"
+        startDestination = "SecondLoginScreen"
     ){
         composable("FirstLoginScreen") {
             LoginFirstScreen(navController)

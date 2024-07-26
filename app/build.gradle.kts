@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 val ktor_version: String by project
@@ -86,5 +87,5 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation ("io.ktor:ktor-client-logging:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+    implementation("com.google.code.gson:gson:2.10.1")
 }
