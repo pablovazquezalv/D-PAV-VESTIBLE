@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material.MaterialTheme
@@ -38,7 +39,7 @@ import io.ktor.client.statement.request
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginSecondScreen(/*navController: NavController*/){
+fun LoginSecondScreen(navController: NavController){
     LoginSecondScreenBody()
 }
 

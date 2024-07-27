@@ -36,6 +36,7 @@ import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.dpav.R
 import com.dpav.presentation.screens.LoginFirstScreen
 import com.dpav.presentation.screens.LoginSecondScreen
+import com.dpav.presentation.screens.PrincipalScreen
 import com.dpav.presentation.theme.DPAVTheme
 
 class MainActivity : ComponentActivity() {
@@ -54,52 +55,14 @@ class MainActivity : ComponentActivity() {
                     LoginFirstScreen(navController)
                 }
                 composable("SecondLoginScreen") {
-                    LoginSecondScreen()
+                    LoginSecondScreen(navController)
+                }
+                composable("PrincipalScreen") {
+                    PrincipalScreen(navController)
                 }
             }
         }
     }
-}
-
-@Composable
-fun MyBackground(){
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.onBackground),
-    ) {
-        Column (
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            MyImg(R.drawable.dpav, "dpav", Modifier.size(100.dp, 50.dp))
-            MyTextField()
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopEnd
-            ){
-                MyImg(R.drawable.imgfondo, "fondo", Modifier)
-            }
-        }
-    }
-}
-
-@Composable
-fun MyTextField(){
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center,
-        color = MaterialTheme.colors.background,
-        text = "Para iniciar sesion dale al boton para generar un codigounico de sesion."
-    )
-}
-
-@Composable
-fun MyImg(imgId: Int, desc: String, modifier: Modifier){
-    Image(
-        modifier = modifier,
-        painter = painterResource(id = imgId),
-        contentDescription = desc
-    )
 }
 
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
@@ -108,13 +71,16 @@ fun DefaultPreview() {
     val navController = rememberSwipeDismissableNavController()
     SwipeDismissableNavHost(
         navController = navController,
-        startDestination = "SecondLoginScreen"
+        startDestination = "PrincipalScreen"
     ){
         composable("FirstLoginScreen") {
             LoginFirstScreen(navController)
         }
         composable("SecondLoginScreen") {
-            LoginSecondScreen()
+            LoginSecondScreen(navController)
+        }
+        composable("PrincipalScreen") {
+            PrincipalScreen(navController)
         }
     }
 }
