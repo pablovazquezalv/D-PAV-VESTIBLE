@@ -31,20 +31,23 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.dpav.R
 import com.dpav.presentation.models.Login
+import com.dpav.presentation.models.LoginResponse
 import com.dpav.presentation.models.getLogin
 import com.google.gson.Gson
+import io.ktor.client.call.body
 import io.ktor.client.statement.bodyAsText
 import io.ktor.client.statement.readText
 import io.ktor.client.statement.request
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginSecondScreen(navController: NavController){
-    LoginSecondScreenBody()
+    LoginSecondScreenBody(navController)
 }
 
 @Composable
-fun LoginSecondScreenBody(){
+fun LoginSecondScreenBody(navController: NavController){
     var text by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     Box(
@@ -79,7 +82,13 @@ fun LoginSecondScreenBody(){
                                     val code = Login(codigo = text)
                                     val codeSerialized = gson.toJson(code)
                                     val response = getLogin(codeSerialized)
+                                    if (response.status == HttpStatusCode.OK)
+                                    {
+                                        // Deserializar la respuesta en la data class LoginResponse
+                                        val loginResponse: LoginResponse = gson.fromJson(response.bodyAsText(), LoginResponse::class.java)
+                                    }
                                     println("Response: ${response.bodyAsText()}")
+                                    navController.navigate(route = "PrincipalScreen")
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }

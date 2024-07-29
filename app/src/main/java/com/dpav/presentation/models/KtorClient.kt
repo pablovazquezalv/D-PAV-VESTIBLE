@@ -36,3 +36,10 @@ suspend fun getLogin(requestBody: Any): HttpResponse {
         setBody(requestBody)
     }
 }
+
+suspend fun getPerros(): HttpResponse {
+    return KtorClient.client.request("http://192.168.1.3:8080/perros"){
+        method = HttpMethod.Get
+        contentType(ContentType.Application.Json)
+    }
+}
