@@ -1,5 +1,7 @@
 package com.dpav.presentation.screens
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -32,6 +35,7 @@ import androidx.wear.compose.material.Text
 import com.dpav.R
 import com.dpav.presentation.models.Login
 import com.dpav.presentation.models.LoginResponse
+import com.dpav.presentation.models.UserPreferences
 import com.dpav.presentation.models.getLogin
 import com.google.gson.Gson
 import io.ktor.client.call.body
@@ -50,6 +54,9 @@ fun LoginSecondScreen(navController: NavController){
 fun LoginSecondScreenBody(navController: NavController){
     var text by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val userPreferences = remember { UserPreferences(context) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,9 +93,12 @@ fun LoginSecondScreenBody(navController: NavController){
                                     {
                                         // Deserializar la respuesta en la data class LoginResponse
                                         val loginResponse: LoginResponse = gson.fromJson(response.bodyAsText(), LoginResponse::class.java)
+                                        // Guardar el estado de inicio de sesión y los datos del usuario en SharedPreferences
+                                        userPreferences.saveUserLoggedIn(loginResponse.user, loginResponse.token)
+                                        //println("Response: ${response.bodyAsText()}")
+                                        navController.navigate(route = "PrincipalScreen")
                                     }
-                                    println("Response: ${response.bodyAsText()}")
-                                    navController.navigate(route = "PrincipalScreen")
+                                    //println("Response: ${response.status}")
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }

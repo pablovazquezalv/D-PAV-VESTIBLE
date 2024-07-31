@@ -2,6 +2,8 @@ package com.dpav.presentation.models
 
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
@@ -13,7 +15,19 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
+
 object KtorClient {
+    //Checar este bloque
+    private var token: String? = null
+
+    fun setToken(newToken: String) {
+        token = newToken
+    }
+
+    fun deleteToken() {
+        token = null
+    }
+    //Fin del bloque a checar
     val client = HttpClient(CIO){
         install(ContentNegotiation){
             json(Json{
@@ -26,6 +40,16 @@ object KtorClient {
             logger = Logger.DEFAULT
             level = LogLevel.INFO
         }
+        //Checar esta parte
+        install(Auth) {
+            bearer {
+                // Configure bearer authentication
+                loadTokens {
+                    token?.let { BearerTokens(it, "") }
+                }
+            }
+        }
+        //Checar esta parte
     }
 }
 
@@ -38,7 +62,7 @@ suspend fun getLogin(requestBody: Any): HttpResponse {
 }
 
 suspend fun getPerros(): HttpResponse {
-    return KtorClient.client.request("http://192.168.1.3:8080/perros"){
+    return KtorClient.client.request("http://134.209.35.1/api/mostrarPerroPorUsuario"){
         method = HttpMethod.Get
         contentType(ContentType.Application.Json)
     }

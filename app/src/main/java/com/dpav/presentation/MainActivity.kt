@@ -20,6 +20,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -34,6 +38,8 @@ import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.dpav.R
+import com.dpav.presentation.models.KtorClient
+import com.dpav.presentation.models.UserPreferences
 import com.dpav.presentation.screens.LoginFirstScreen
 import com.dpav.presentation.screens.LoginSecondScreen
 import com.dpav.presentation.screens.PrincipalScreen
@@ -44,12 +50,21 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         super.onCreate(savedInstanceState)
+        val userPreferences = UserPreferences(applicationContext)
 
         setContent {
+            var isLoggedIn by remember { mutableStateOf(userPreferences.isLoggedIn()) }
+            //Checar esta parte
+            var token by remember { mutableStateOf(userPreferences.getToken()) }
+
+            // Inicializa el cliente HTTP si el token no está vacío
+            token?.let { KtorClient.setToken(it) }
+            //Fin de lo pendiente por checar
+
             val navController = rememberSwipeDismissableNavController()
             SwipeDismissableNavHost(
                 navController = navController,
-                startDestination = "FirstLoginScreen"
+                startDestination = if (isLoggedIn) "PrincipalScreen" else "FirstLoginScreen"
             ){
                 composable("FirstLoginScreen") {
                     LoginFirstScreen(navController)

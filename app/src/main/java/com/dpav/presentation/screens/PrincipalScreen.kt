@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,8 +32,10 @@ import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.dpav.R
 import com.dpav.presentation.models.Perro
+import com.dpav.presentation.models.UserPreferences
 import com.dpav.presentation.models.fetchPerros
 import com.dpav.presentation.models.getPerros
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -47,6 +50,8 @@ fun PrincipalScreen(navController: NavController){
 fun BodyPrincipalScreen(){
     var perros by remember { mutableStateOf<List<Perro>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
+    val context = LocalContext.current
+    val userPreferences = remember { UserPreferences(context) }
     /*val perros = listOf(
         Perro(1,"Bulldog", "John Doe",90.0),
         Perro(2, "Labrador", "Jane Smith", 50.0),
@@ -59,9 +64,9 @@ fun BodyPrincipalScreen(){
     )*/
 
     LaunchedEffect(Unit) {
+        //val token = userPreferences.getToken()
         withContext(Dispatchers.IO) {
             try {
-
                 val fetchedPerros = fetchPerros()
                 if (fetchedPerros != null) {
                     perros = fetchedPerros
@@ -126,7 +131,7 @@ fun PerroItem(perro: Perro){
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             AsyncImage(
-                model = "https://img.freepik.com/foto-gratis/perro-pug-aislado-fondo-blanco_2829-11416.jpg",
+                model = perro.imagen,
                 contentDescription = null,
                 modifier = Modifier.size(35.dp)
             )
@@ -135,7 +140,7 @@ fun PerroItem(perro: Perro){
                 modifier = Modifier.weight(1f)
             ) {
                 Text(text = perro.nombre, color = Color.White, fontSize = 15.sp)
-                Text(text = perro.raza, color = Color.LightGray, fontSize = 9.sp)
+                Text(text = perro.id_raza.toString(), color = Color.LightGray, fontSize = 9.sp)
             }
         }
     }
