@@ -11,7 +11,7 @@ class UserPreferences(context: Context){
         val editor = sharedPreferences.edit()
         editor.putBoolean("is_logged_in", true)
         editor.putString("user", Gson().toJson(user))
-        editor.putString("token", Gson().toJson(token))
+        editor.putString("token", token)
         editor.apply()
     }
 
@@ -21,9 +21,7 @@ class UserPreferences(context: Context){
 
     fun getUser(): User? {
         val user = sharedPreferences.getString("user", null)
-        if (user == null)
-            return user
-        return Gson().fromJson(user, User::class.java)
+        return user?.let { Gson().fromJson(it, User::class.java) }
     }
 
     fun getToken(): String? {
@@ -34,6 +32,7 @@ class UserPreferences(context: Context){
         val editor = sharedPreferences.edit()
         editor.putBoolean("is_logged_in", false)
         editor.putString("user", null)
+        editor.putString("token", null)
         editor.apply()
     }
 }

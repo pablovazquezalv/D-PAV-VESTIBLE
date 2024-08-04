@@ -1,5 +1,6 @@
 package com.dpav.presentation.models
 
+import androidx.navigation.NavController
 import com.google.gson.Gson
 import io.ktor.client.statement.bodyAsText
 import io.ktor.client.statement.request
@@ -28,18 +29,18 @@ data class Perro(
 
 data class PerroResponse(
     val message: String,
-    val mascota: List<Perro>,
+    val mascotas: List<Perro>,
 )
 
 suspend fun fetchPerros(): List<Perro>? {
     val response = getPerros()
     if (response.status == HttpStatusCode.OK){
+        println("Response ${response.status}")
+        println("Response ${response.bodyAsText()}")
         val perroResponse = Gson().fromJson(response.bodyAsText(), PerroResponse::class.java)
-        return perroResponse.mascota
+        return perroResponse.mascotas
     }
     else {
-        println("Response: ${response.bodyAsText()}")
-        println("Response: ${response.status}")
         return null
     }
 }

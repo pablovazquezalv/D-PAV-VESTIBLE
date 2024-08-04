@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,28 +39,40 @@ import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.dpav.R
+import com.dpav.presentation.models.ContextProvider
 import com.dpav.presentation.models.KtorClient
 import com.dpav.presentation.models.UserPreferences
+import com.dpav.presentation.models.valToken
+import com.dpav.presentation.models.validarToken
 import com.dpav.presentation.screens.LoginFirstScreen
 import com.dpav.presentation.screens.LoginSecondScreen
 import com.dpav.presentation.screens.PrincipalScreen
 import com.dpav.presentation.theme.DPAVTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
         super.onCreate(savedInstanceState)
+        ContextProvider.init(this)
         val userPreferences = UserPreferences(applicationContext)
 
         setContent {
             var isLoggedIn by remember { mutableStateOf(userPreferences.isLoggedIn()) }
-            //Checar esta parte
             var token by remember { mutableStateOf(userPreferences.getToken()) }
 
-            // Inicializa el cliente HTTP si el token no está vacío
-            token?.let { KtorClient.setToken(it) }
-            //Fin de lo pendiente por checar
+            token?.let {
+                LaunchedEffect(Unit) {
+                    //val token = userPreferences.getToken()
+                    withContext(Dispatchers.IO) {
+                        if (!valToken())
+                            userPreferences.logout()
+                    }
+
+                }
+            }
 
             val navController = rememberSwipeDismissableNavController()
             SwipeDismissableNavHost(

@@ -42,26 +42,16 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun PrincipalScreen(navController: NavController){
-    BodyPrincipalScreen()
+    BodyPrincipalScreen(navController)
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BodyPrincipalScreen(){
+fun BodyPrincipalScreen(navController: NavController){
     var perros by remember { mutableStateOf<List<Perro>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     val context = LocalContext.current
     val userPreferences = remember { UserPreferences(context) }
-    /*val perros = listOf(
-        Perro(1,"Bulldog", "John Doe",90.0),
-        Perro(2, "Labrador", "Jane Smith", 50.0),
-        Perro(3, "Pug", "Paul Brown", 40.0),
-        Perro(4, "Beagle", "Emily White", 40.0),
-        Perro(5, "Golden Retriever", "Michael Green", 40.0),
-        Perro(6, "Chihuahua", "Sarah Black", 40.0),
-        Perro(7, "Husky", "David Blue", 40.0),
-        Perro(8, "Pomeranian", "Olivia Purple", 40.0)
-    )*/
 
     LaunchedEffect(Unit) {
         //val token = userPreferences.getToken()
@@ -131,7 +121,7 @@ fun PerroItem(perro: Perro){
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             AsyncImage(
-                model = perro.imagen,
+                model = perro.imagen.replace("\\", ""),
                 contentDescription = null,
                 modifier = Modifier.size(35.dp)
             )
