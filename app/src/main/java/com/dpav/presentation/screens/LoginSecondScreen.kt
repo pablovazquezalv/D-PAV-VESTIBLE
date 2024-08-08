@@ -96,7 +96,7 @@ fun LoginSecondScreenBody(navController: NavController){
                                         // Guardar el estado de inicio de sesión y los datos del usuario en SharedPreferences
                                         userPreferences.saveUserLoggedIn(loginResponse.user, loginResponse.token)
                                         //println("Response: ${response.bodyAsText()}")
-                                        navController.navigate(route = "PrincipalScreen")
+                                        navController.navigate(route = "MenuScreen")
                                     }
                                     //println("Response: ${response.status}")
                                 } catch (e: Exception) {

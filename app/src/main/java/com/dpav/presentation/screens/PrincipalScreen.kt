@@ -130,7 +130,7 @@ fun PerroItem(perro: Perro){
                 modifier = Modifier.weight(1f)
             ) {
                 Text(text = perro.nombre, color = Color.White, fontSize = 15.sp)
-                Text(text = perro.id_raza.toString(), color = Color.LightGray, fontSize = 9.sp)
+                Text(text = perro.raza, color = Color.LightGray, fontSize = 9.sp)
             }
         }
     }

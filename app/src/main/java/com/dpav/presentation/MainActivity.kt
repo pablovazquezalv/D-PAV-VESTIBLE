@@ -46,6 +46,7 @@ import com.dpav.presentation.models.valToken
 import com.dpav.presentation.models.validarToken
 import com.dpav.presentation.screens.LoginFirstScreen
 import com.dpav.presentation.screens.LoginSecondScreen
+import com.dpav.presentation.screens.MenuScreen
 import com.dpav.presentation.screens.PrincipalScreen
 import com.dpav.presentation.theme.DPAVTheme
 import kotlinx.coroutines.Dispatchers
@@ -77,7 +78,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberSwipeDismissableNavController()
             SwipeDismissableNavHost(
                 navController = navController,
-                startDestination = if (isLoggedIn) "PrincipalScreen" else "FirstLoginScreen"
+                startDestination = if (isLoggedIn) "MenuScreen" else "FirstLoginScreen"
             ){
                 composable("FirstLoginScreen") {
                     LoginFirstScreen(navController)
@@ -87,6 +88,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("PrincipalScreen") {
                     PrincipalScreen(navController)
+                }
+                composable("MenuScreen") {
+                    MenuScreen(navController)
                 }
             }
         }
@@ -99,7 +103,7 @@ fun DefaultPreview() {
     val navController = rememberSwipeDismissableNavController()
     SwipeDismissableNavHost(
         navController = navController,
-        startDestination = "PrincipalScreen"
+        startDestination = "MenuScreen"
     ){
         composable("FirstLoginScreen") {
             LoginFirstScreen(navController)
@@ -109,6 +113,9 @@ fun DefaultPreview() {
         }
         composable("PrincipalScreen") {
             PrincipalScreen(navController)
+        }
+        composable("MenuScreen") {
+            MenuScreen(navController)
         }
     }
 }

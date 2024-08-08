@@ -25,6 +25,7 @@ data class Perro(
     val user_id: Int,
     val created_at: String,
     val updated_at: String,
+    val raza: String,
 )
 
 data class PerroResponse(

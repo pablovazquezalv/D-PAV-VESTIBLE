@@ -2,6 +2,7 @@ package com.dpav.presentation.models
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.gson.Gson
 
 class UserPreferences(context: Context){
@@ -13,6 +14,7 @@ class UserPreferences(context: Context){
         editor.putString("user", Gson().toJson(user))
         editor.putString("token", token)
         editor.apply()
+        //Log.d("UserPreferences", "User saved: ${Gson().toJson(user)}, Token: $token")
     }
 
     fun isLoggedIn(): Boolean {

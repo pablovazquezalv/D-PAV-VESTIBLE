@@ -94,7 +94,7 @@ suspend fun getLogin(requestBody: Any): HttpResponse {
 }
 
 suspend fun getPerros(): HttpResponse {
-    return KtorClient.client.request("http://134.209.35.1/api/mostrarPerroPorUsuario"){
+    return KtorClient.client.request("http://134.209.35.1/api/mostrarMascotaPorUsuario"){
         method = HttpMethod.Get
         //contentType(ContentType.Application.Json)
     }
