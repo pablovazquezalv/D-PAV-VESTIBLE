@@ -33,6 +33,7 @@ import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.dpav.R
+import com.dpav.presentation.models.ContextProvider
 import com.dpav.presentation.models.Login
 import com.dpav.presentation.models.LoginResponse
 import com.dpav.presentation.models.UserPreferences
@@ -95,6 +96,8 @@ fun LoginSecondScreenBody(navController: NavController){
                                         val loginResponse: LoginResponse = gson.fromJson(response.bodyAsText(), LoginResponse::class.java)
                                         // Guardar el estado de inicio de sesión y los datos del usuario en SharedPreferences
                                         userPreferences.saveUserLoggedIn(loginResponse.user, loginResponse.token)
+
+                                        ContextProvider.init(context)
                                         //println("Response: ${response.bodyAsText()}")
                                         navController.navigate(route = "MenuScreen")
                                     }

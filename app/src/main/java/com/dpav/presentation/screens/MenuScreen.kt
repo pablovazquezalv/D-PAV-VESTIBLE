@@ -39,7 +39,7 @@ fun MenuBody(navController: NavController){
             modifier = Modifier.padding(17.dp,20.dp,10.dp,10.dp)
         ){
             Text(text = "Menu", color = Color.Black, modifier = Modifier.padding(0.dp,0.dp,0.dp,10.dp))
-            MenuItem("Ver Mis Perros") { navController.navigate(route = "PrincipalScreen") }
+            MenuItem("Ver Mis Mascotas") { navController.navigate(route = "PrincipalScreen") }
             MenuItem("Cerrar Sesion") {
                 userPreferences.logout()
                 navController.navigate(route = "FirstLoginScreen")

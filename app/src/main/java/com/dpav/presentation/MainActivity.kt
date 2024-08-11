@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Observer
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
@@ -57,28 +58,25 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         super.onCreate(savedInstanceState)
-        ContextProvider.init(this)
+        ContextProvider.init(applicationContext)
         val userPreferences = UserPreferences(applicationContext)
 
         setContent {
-            var isLoggedIn by remember { mutableStateOf(userPreferences.isLoggedIn()) }
-            var token by remember { mutableStateOf(userPreferences.getToken()) }
+            val isLoggIn = userPreferences.isLoggedIn
 
-            token?.let {
-                LaunchedEffect(Unit) {
-                    //val token = userPreferences.getToken()
-                    withContext(Dispatchers.IO) {
-                        if (!valToken())
-                            userPreferences.logout()
-                    }
-
+            LaunchedEffect(Unit) {
+                //val token = userPreferences.getToken()
+                withContext(Dispatchers.IO) {
+                    if (!valToken())
+                        userPreferences.logout()
                 }
+
             }
 
             val navController = rememberSwipeDismissableNavController()
             SwipeDismissableNavHost(
                 navController = navController,
-                startDestination = if (isLoggedIn) "MenuScreen" else "FirstLoginScreen"
+                startDestination = if (isLoggIn) "MenuScreen" else "FirstLoginScreen"
             ){
                 composable("FirstLoginScreen") {
                     LoginFirstScreen(navController)
