@@ -13,7 +13,7 @@ data class Perro(
     val sexo: String,
     val peso: Double,
     val tamano: String,
-    val estatus: Int,
+    val estatus: Boolean,
     val esterilizado: String,
     val fecha_nacimiento: String,
     val imagen: String,

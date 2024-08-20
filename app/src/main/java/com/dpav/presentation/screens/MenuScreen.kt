@@ -42,7 +42,15 @@ fun MenuBody(navController: NavController){
             MenuItem("Ver Mis Mascotas") { navController.navigate(route = "PrincipalScreen") }
             MenuItem("Cerrar Sesion") {
                 userPreferences.logout()
-                navController.navigate(route = "FirstLoginScreen")
+                navController.navigate(route = "FirstLoginScreen"){
+                    // Evita que se creen múltiples instancias de la pantalla
+                    launchSingleTop = true
+
+                    // Opcional: Elimina todas las pantallas anteriores de la pila
+                    popUpTo("FirstLoginScreen") {
+                        inclusive = true
+                    }
+                }
             }
         }
     }

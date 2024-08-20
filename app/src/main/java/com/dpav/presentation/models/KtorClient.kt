@@ -71,13 +71,13 @@ object KtorClient {
 }
 
 suspend fun validarToken(): HttpResponse {
-    return KtorClient.getClient().request("http://134.209.35.1/api/verificarToken") {
+    return KtorClient.getClient().request("https://api.dpav.shop/api/verificarToken") {
         method = HttpMethod.Post
     }
 }
 
 suspend fun getLogin(requestBody: Any): HttpResponse {
-    return KtorClient.getClient().request("http://134.209.35.1/api/loginVerificarCodigoSmartWatch") {
+    return KtorClient.getClient().request("https://api.dpav.shop/api/loginVerificarCodigoSmartWatch") {
         method = HttpMethod.Post
         contentType(ContentType.Application.Json)
         setBody(requestBody)
@@ -85,7 +85,7 @@ suspend fun getLogin(requestBody: Any): HttpResponse {
 }
 
 suspend fun getPerros(): HttpResponse {
-    return KtorClient.getClient().request("http://134.209.35.1/api/mostrarMascotaPorUsuario"){
+    return KtorClient.getClient().request("https://api.dpav.shop/api/mostrarMascotaPorUsuario"){
         method = HttpMethod.Get
         //contentType(ContentType.Application.Json)
     }

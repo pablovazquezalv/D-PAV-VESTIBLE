@@ -13,7 +13,7 @@ data class User(
     val ciudad: String,
     val colonia: String,
     val codigo_postal: Int,
-    val activo: Int,
+    val activo: Boolean,
     val estado: String,
     val role_id: Int,
     val verification_code_sent_at: String,

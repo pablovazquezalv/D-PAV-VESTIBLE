@@ -99,7 +99,15 @@ fun LoginSecondScreenBody(navController: NavController){
 
                                         ContextProvider.init(context)
                                         //println("Response: ${response.bodyAsText()}")
-                                        navController.navigate(route = "MenuScreen")
+                                        navController.navigate(route = "MenuScreen") {
+                                            // Evita que se creen múltiples instancias de la pantalla
+                                            launchSingleTop = true
+
+                                            // Opcional: Elimina todas las pantallas anteriores de la pila
+                                            popUpTo("MenuScreen") {
+                                                inclusive = true
+                                            }
+                                        }
                                     }
                                     //println("Response: ${response.status}")
                                 } catch (e: Exception) {

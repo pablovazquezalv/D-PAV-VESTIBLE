@@ -67,7 +67,15 @@ fun MyTextField(text: String){
 fun NavButton(text: String, navController: NavController){
     Button(
         onClick = {
-            navController.navigate(route = "SecondLoginScreen")
+            navController.navigate(route = "SecondLoginScreen"){
+                // Evita que se creen múltiples instancias de la pantalla
+                launchSingleTop = true
+
+                // Opcional: Elimina todas las pantallas anteriores de la pila
+                popUpTo("SecondLoginScreen") {
+                    inclusive = true
+                }
+            }
             //println("Response: Hola mUndo")
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = ButtonBlue),
